@@ -1,118 +1,95 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import React, {useState} from 'react';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default function App() {
+  const [randomBackground, setRandomBackground] = useState<string>('#000000');
+  const [randomTriangleColor, setRandomTriangleColor] =
+    useState<string>('#000000');
+  const [randomCircleColor, setRandomCircleColor] = useState<string>('#000000');
+  const [randomButtonColor, setRandomButtonColor] = useState<string>('#000000');
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const generateColor = () => {
+    const hexRange = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += hexRange[Math.floor(Math.random() * 16)];
+    }
+    setRandomBackground(color);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    let triangleColor = '#';
+    for (let i = 0; i < 6; i++) {
+      triangleColor += hexRange[Math.floor(Math.random() * 16)];
+    }
+    setRandomTriangleColor(triangleColor);
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+    let circleColor = '#';
+    for (let i = 0; i < 6; i++) {
+      circleColor += hexRange[Math.floor(Math.random() * 16)];
+    }
+    setRandomCircleColor(circleColor);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    let buttonColor = '#';
+    for (let i = 0; i < 6; i++) {
+      buttonColor += hexRange[Math.floor(Math.random() * 16)];
+    }
+    setRandomButtonColor(buttonColor);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+    <>
+      <StatusBar backgroundColor={randomBackground} />
+      <View style={[styles.container, {backgroundColor: randomBackground}]}>
+        <View style={[styles.circle, {backgroundColor: randomCircleColor}]} />
+
+        <TouchableOpacity onPress={() => generateColor()}>
+          <View
+            style={[styles.actionBtn, {backgroundColor: randomButtonColor}]}>
+            <Text style={styles.buttonTxt}>Press me</Text>
+          </View>
+        </TouchableOpacity>
         <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          style={[styles.triangle, {borderBottomColor: randomTriangleColor}]}
+        />
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
+  actionBtn: {
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+  },
+  buttonTxt: {
+    color: '#FFFFFF',
     fontSize: 24,
-    fontWeight: '600',
+    textTransform: 'uppercase',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  triangle: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderLeftWidth: 50,
+    borderRightWidth: 50,
+    borderBottomWidth: 100,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
   },
-  highlight: {
-    fontWeight: '700',
+  circle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });
-
-export default App;
